@@ -23,6 +23,30 @@
       background-color: orange; 
     }
 
+    my-card {
+      height: 500px;
+      width: 400px;
+      margin: 16px;
+    }
+
+    my-card title {
+      color: white;
+    }
+
+    my-card img {
+
+      border: 5px white;
+    }
+
+    my-card p {
+      color: white;
+    }
+
+    my-card span {
+      background-color: gray;
+    }
+
+
   </style>
   <title>polaris-chip / my-card</title>
 </head>
@@ -30,9 +54,9 @@
 <body>
   <h1>polaris-chip</h1>
   <!-- this is going to do whatever the tag's defaults are -->
-  <polaris-chip title = "News of Record" link="https://www.psu.edu"></polaris-chip>
+  <polaris-chip title = "News of Record" link="https://www.psu.edu/"></polaris-chip>
   <polaris-chip title = "Faculty and Staff"></polaris-chip>
-  <polaris-chip title = "sports ares the only thing that matters"></polaris-chip>
+  <polaris-chip title = "sports are the only thing that matters"></polaris-chip>
   <polaris-chip title = "Grants and documents"></polaris-chip>
   <polaris-chip></polaris-chip>
   <polaris-chip></polaris-chip>
@@ -42,12 +66,16 @@
   <!-- this is going to take the tag and change the title -->
   <polaris-chip title="Cool"></polaris-chip>
 
-  <h1>Penn State Places</h1>
+  <h1>Penn State Places (rough draft)</h1>
   <h2>Controls(WiP)</h2>
   <h2>Places of Penn State</h2>
-  <div>
-
-  </div>
+  <my-card title = "Mount Nittany" link="https://nittany.org/" img="https://nittany.org/wp-content/uploads/2018/10/mtnittanyrothrock-web.jpg" para="Mount Nittany at Sunrise"></my-card>
+  <my-card title = "Westgate Building" link="https://ist.psu.edu/about/visitors" img="https://upload.wikimedia.org/wikipedia/en/8/8e/IST_Building_PSU.jpg" para="the cool tech building inspired by an Italy bridge or something."></my-card>
+  <my-card title = "USS Pennsylvania(BB-38) Bell" link="https://www.psu.edu/news/campus-life/story/battleship-bell-campus-still-serve-reminders-pearl-harbor/" img="https://i0.wp.com/onwardstate.com/wp-content/uploads/2015/10/11239208584_21c72e6369_n.jpg?resize=700%2C486" para="the other liberty bell."></my-card>
+  <my-card title = "Berkley Creamery" link="https://creamery.psu.edu/" img="https://upload.wikimedia.org/wikipedia/commons/2/2d/Pennsylvania_State_University_Food_Science_Building_and_Berkey_Creamery_May_15%2C_2010.jpg" para="Ping of Death Chocolate"></my-card>
+  <my-card title = "HUB-Robeson Center" link="https://studentaffairs.psu.edu/hub" img="https://studentaffairs.psu.edu/sites/default/files/styles/dept_image_800x330/public/2018-02/PageBanner_HUB_HUB-Back_07_17_2.jpg?itok=OqyhKaVG" para="DA HUUUUBBB!!!!111!!!!!"></my-card>
+  <my-card></my-card>
+  <my-card></my-card>
   <my-card></my-card>
 
   <!-- this is what is bringing in the definition for this tag -->
