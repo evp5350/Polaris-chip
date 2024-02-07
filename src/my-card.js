@@ -17,7 +17,7 @@ export class MyCard extends LitElement {
     super();
     this.title = "Defualt Card";
     this.link = "https://www.psu.edu/";
-    this.img = "https://mario.wiki.gallery/images/thumb/7/7f/Question_Block_-_Nintendo_JP_website.png/1200px-Question_Block_-_Nintendo_JP_website.png";
+    this.cardImg = "https://mario.wiki.gallery/images/thumb/7/7f/Question_Block_-_Nintendo_JP_website.png/1200px-Question_Block_-_Nintendo_JP_website.png";
     this.para = "Interesting text goes here.";
   }
 
@@ -32,8 +32,54 @@ export class MyCard extends LitElement {
         margin: 10px;
         border: 5px solid black;
       }
+      
+      /*---wrapper---*/
+      .det {
+        background-color: blue;
+        color: white;
+        font-size: 20px;
+        font-family: Georgia;
+        padding: 16px 16px 16px 16px;
+        margin: 4px 4px 4px 144px;
 
-      img {
+
+      }
+      /*---button-hover---*/
+      .det:focus,
+      .det:hover {
+        background-color: gray;
+      }
+
+      /*----header---- */
+
+      .title {
+        font-size: 30px;
+        font-family: Georgia;
+        padding: 8px;
+        margin: 8px;
+        color: white;
+      }
+
+      /*---image---*/
+      .cardImg {
+        width: 90%;
+        height: 45%;
+        padding: 0px;
+        margin: 8px;
+      }
+
+      /*---para---*/
+      .para {
+        font-size: 15px;
+        font-family: georgia;
+        padding: 0px;
+        margin: 8px;
+      }
+
+
+
+
+      /*img {
         height: 50%;
         width: 90%;
         border: 5px white; 
@@ -63,17 +109,22 @@ export class MyCard extends LitElement {
         background-color: yellow;
         border: 1px black;
 
-      }
+      }*/
 
     `;
   }
 
   render() {
-    return html` <a href="${this.link}">
-    <span>${this.title}</span>
-    <p>${this.para}</p>
-    <img src="${this.img}"></img>
-    </a>
+    return html`
+    <div>
+      <h1 class="title">${this.title}</h1>
+      <img class="cardImg" src="${this.cardImg}"><img>
+      <p class="para">${this.para}</p>
+      <a href="${this.link}"><button class="det">Details</button></a>
+
+
+    </div>
+
     `;
   }
 
@@ -81,7 +132,7 @@ export class MyCard extends LitElement {
     return {
       title: { type: String },
       link: { type: String },
-      img: { type: String },
+      cardImg: { type: String },
       para: { type: String },
     };
   }
