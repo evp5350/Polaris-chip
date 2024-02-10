@@ -32,18 +32,20 @@
     my-card title {
       color: white;
     }
+    my-card change-color{
+      background-color: green;
+    }
+    my-card restore-color {
+      background-color: lightskyblue;
+    }
 
     my-card cardImg {
-
       border: 5px white;
     }
 
-    my-card p {
+    my-card para {
+      font-size: 15px;
       color: white;
-    }
-
-    my-card span {
-      background-color: gray;
     }
 
 
@@ -66,30 +68,106 @@
   <!-- this is going to take the tag and change the title -->
   <polaris-chip title="Cool"></polaris-chip>
 
-  <h1>Penn State Places (rough draft)</h1>
-  <h2>Controls(WiP)</h2>
+  <h1> Penn State Places</h1>
+  <h2> Controls</h2>
   <div class="control-wrapper">
-    <button class="duplicate">Clone Card</button>
-    <button class="changetitle">Change Title</button>
-    <button class="changeimage">Change Image</button>
-    <button class="changebg">Change Background Color</button>
-    <button class="delete">Delete Card</button>
-    <button class="bgcolor">Background Color</button>
+    <button class="duplicate"> Clone Card</button>
+    <button class="changetext"> Change Title</button>
+    <button class="changeimage"> Change Image</button>
+    <button class="changebg"> Change Background Color</button>
+    <button class="delete"> Delete Card</button>
+    <button class="bgcolor"> Restore Background Color</button>
   </div>
-  <h2>Places of Penn State</h2>
-
-  <my-card title = "Mount Nittany" link="https://nittany.org/" cardImg="https://nittany.org/wp-content/uploads/2018/10/mtnittanyrothrock-web.jpg" para="Mount Nittany at Sunrise"></my-card>
-  <my-card title = "Westgate Building" link="https://ist.psu.edu/about/visitors" cardImg="https://upload.wikimedia.org/wikipedia/en/8/8e/IST_Building_PSU.jpg" para="the cool tech building inspired by an Italy bridge or something."></my-card>
-  <my-card title = "USS Pennsylvania(BB-38) Bell" link="https://www.psu.edu/news/campus-life/story/battleship-bell-campus-still-serve-reminders-pearl-harbor/" cardImg="https://i0.wp.com/onwardstate.com/wp-content/uploads/2015/10/11239208584_21c72e6369_n.jpg?resize=700%2C486" para="the other liberty bell."></my-card>
-  <my-card title = "Berkley Creamery" link="https://creamery.psu.edu/" cardImg="https://upload.wikimedia.org/wikipedia/commons/2/2d/Pennsylvania_State_University_Food_Science_Building_and_Berkey_Creamery_May_15%2C_2010.jpg" para="Ping of Death Chocolate"></my-card>
-  <my-card title = "HUB-Robeson Center" link="https://studentaffairs.psu.edu/hub" cardImg="https://studentaffairs.psu.edu/sites/default/files/styles/dept_image_800x330/public/2018-02/PageBanner_HUB_HUB-Back_07_17_2.jpg?itok=OqyhKaVG" para="DA HUUUUBBB!!!!111!!!!!"></my-card>
-  <my-card></my-card>
-  <my-card></my-card>
-  <my-card></my-card>
-
+  <h2> Places of Penn State</h2>
+  <div id="cardlist">
+    <my-card title = "Mount Nittany" link="https://nittany.org/" cardImg="https://nittany.org/wp-content/uploads/2018/10/mtnittanyrothrock-web.jpg" para="Mount Nittany at Sunrise."></my-card>
+    <my-card title = "Westgate Building" link="https://ist.psu.edu/about/visitors" cardImg="https://upload.wikimedia.org/wikipedia/en/8/8e/IST_Building_PSU.jpg" para="the cool tech building inspired by an Italy bridge or something."></my-card>
+    <my-card title = "USS Pennsylvania(BB-38) Bell" link="https://www.psu.edu/news/campus-life/story/battleship-bell-campus-still-serve-reminders-pearl-harbor/" cardImg="https://i0.wp.com/onwardstate.com/wp-content/uploads/2015/10/11239208584_21c72e6369_n.jpg?resize=700%2C486" para="the other liberty bell."></my-card>
+    <my-card title = "Berkley Creamery" link="https://creamery.psu.edu/" cardImg="https://upload.wikimedia.org/wikipedia/commons/2/2d/Pennsylvania_State_University_Food_Science_Building_and_Berkey_Creamery_May_15%2C_2010.jpg" para="Ping of Death Chocolate"></my-card>
+    <my-card title = "HUB-Robeson Center" link="https://studentaffairs.psu.edu/hub" cardImg="https://studentaffairs.psu.edu/sites/default/files/styles/dept_image_800x330/public/2018-02/PageBanner_HUB_HUB-Back_07_17_2.jpg?itok=OqyhKaVG" para="DA HUUUUBBB!!!!111!!!!!"></my-card>
+    <my-card></my-card>
+    <my-card></my-card>
+    <my-card></my-card>
+  </div>
   <!-- this is what is bringing in the definition for this tag -->
   <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
-</body>
 
+  <script>
+    //dupe and logic
+    document.querySelector('.duplicate').addEventListener('click', function(event) {
+      const cards = document.querySelectorAll('my-card');
+      if (cards.length > 0 && cards.length < 10) {
+        const lastCard = cards[cards.length - 1];
+        const newCard = lastCard.cloneNode(true);
+        document.querySelector('#cardlist').appendChild(newCard);
+      }
+    });
+    
+    
+    
+    
+    // change title
+    document.querySelector('.changetext').addEventListener('click', function(e) {
+      const myCard = document.querySelector('my-card');
+      const shadowRoot = myCard.shadowRoot;
+      const cardTitle = shadowRoot.querySelector('.title');
+    
+      cardTitle.textContent = "Purble Place";
+    })
+    
+    // change image
+    document.querySelector('.changeimage').addEventListener('click',function(e) {
+      const myCard = document.querySelector('my-card');
+      const shadowRoot = myCard.shadowRoot;
+      const cardImage = shadowRoot.querySelector('.cardImg');
+    
+      cardImage.setAttribute('src', 'https://www.giantbomb.com/a/uploads/scale_small/8/87790/3218785-purble_icon.jpg');
+    
+    
+    });
+    
+    
+    
+    // css change bg
+    document.querySelector('.changebg').addEventListener('click', function(e) {
+      const myCards = document.querySelector('my-card');
+    
+      myCards.forEach(myCard => {
+        const shadowRoot = myCard.shadowRoot;
+        const cards = shadowRoot.querySelector('.card');
+    
+        card.forEach(card => {
+          card.classList.toggle('change-color');
+        });
+      });
+    });
+    
+    
+    
+    // delete cards
+    document.querySelector('.delete').addEventListener('click', function(e) {
+      const cards = document.querySelectorAll('my-card');
+      const lastCard = cards[cards.length - 1];
+    
+      if (cards.length !== 1){
+        lastCard.remove();
+      }
+    });
+    
+    //restore bg color
+    document.querySelector('.bgcolor').addEventListener('click', function(e) {
+      const myCards = document.querySelector('my-card');
+    
+      myCards.forEach(myCard => {
+        const shadowRoot = myCard.shadowRoot;
+        const cards = shadowRoot.querySelectorAll('my-card');
+    
+        card.forEach(card => {
+          card.classList.toggle('restore-color');
+        });
+      });
+    });
+    </script>
+</body>
 </html>

@@ -17,8 +17,10 @@ export class MyCard extends LitElement {
     super();
     this.title = "Defualt Card";
     this.link = "https://www.psu.edu/";
-    this.cardImg = "https://mario.wiki.gallery/images/thumb/7/7f/Question_Block_-_Nintendo_JP_website.png/1200px-Question_Block_-_Nintendo_JP_website.png";
+    this.cardImg = "https://free-icon-rainbow.com/i/icon_00201/icon_002010_256.png";
     this.para = "Interesting text goes here.";
+    this.fancy = false;
+
   }
 
   static get styles() {
@@ -26,14 +28,63 @@ export class MyCard extends LitElement {
       :host {
         display: inline-flex;
         background-color: lightskyblue;
-        height: 500px;
-        width: 400px;
-        padding: 10px;
-        margin: 10px;
         border: 5px solid black;
+        overflow: auto;
+      }
+      :host([fancy]) {
+      display: inline-flex;
+        color: white;
+        background-color: navy;
+        border: 5px solid gold;
+        box-shadow: 10px 5px 5px black;
+        overflow: auto;
+      }
+
+
+      .cardlist {
+        display: flex;
       }
       
-      /*---wrapper---*/
+
+      /*---image---*/
+      .cardImg {
+        width: 90%;
+        height: auto;
+        border: 1px solid black;
+        margin: 8px;
+        padding: 0px;
+      }
+
+
+      /*----header---- */
+      .title {
+        font-size: 30px;
+        font-family: Georgia;
+        padding: 0px;
+        margin: 8px;
+        color: white;
+      }
+
+      /*---para---*/
+      .para {
+        font-size: 15px;
+        font-family: Georgia;
+        padding: 10px;
+        margin: 10px;
+      }
+      
+
+      .change-color {
+        background-color: purple;
+      }
+      .restore-color {
+        background-color: lightskyblue;
+
+      }
+      
+      
+      
+      /*---button---*/
       .det {
         background-color: blue;
         color: white;
@@ -50,68 +101,41 @@ export class MyCard extends LitElement {
         background-color: gray;
       }
 
-      /*----header---- */
 
-      .title {
-        font-size: 30px;
+      /* fancy event */
+      details summary {
+        text-align: left;
+        font-size: 20px;
+        padding: 8px;
         font-family: Georgia;
+        color: white;
+      }
+      details[open] summary {
+        font-weight: bold;
+        font-family: Georgia;
+      }
+      details div {
+        border: 2px solid black;
+        text-align: left;
         padding: 8px;
         margin: 8px;
-        color: white;
-      }
-
-      /*---image---*/
-      .cardImg {
-        width: 90%;
-        height: 45%;
-        padding: 0px;
-        margin: 8px;
-      }
-
-      /*---para---*/
-      .para {
+        height: 70px;
+        overflow: auto;
+        background-color: #485470;
+        font-style: italic;
         font-size: 15px;
-        font-family: georgia;
-        padding: 0px;
-        margin: 8px;
       }
-
-
-
-
-      /*img {
-        height: 50%;
-        width: 90%;
-        border: 5px white; 
-        padding: 0px 0px 0px 0px;
-        margin: 0px 0px 0px 8px;
-      }
-
-      p {
-        font-size: 20px;
-        font-family: georgia;
-        padding: 0px 0px 0px 0px;
-        margin: 32px 0px 16px 8px;
-        color: white;
-      }
-
-      span {
-        color: white;
-        font-size: 40px;
-        font-family: Georgia;
-        height: 50px;
-        width: 250px;
-        padding: 0px 0px 0px 8px;
-        margin: 0px 0px 0px 0px;
-      }
-
-      span:hover {
-        background-color: yellow;
-        border: 1px black;
-
-      }*/
-
     `;
+  }
+
+  openChanged(e) {
+    console.log(e.newState);
+    if (e.newState === "open") {
+      this.fancy = true;
+    }
+    else {
+      this.fancy = false;
+    }
   }
 
   render() {
@@ -119,11 +143,19 @@ export class MyCard extends LitElement {
     <div>
       <h1 class="title">${this.title}</h1>
       <img class="cardImg" src="${this.cardImg}"><img>
-      <p class="para">${this.para}</p>
+      <!-- <p class="para">${this.para}</p> -->
+      <!-- Fancy card-->
+      <details ?open="${this.fancy}" @toggle="${this.openChanged}">
+      <summary>Description</summary>
+      <div>
+        <slot>${this.para}</slot>
+      </div>
+      </details>
+
       <a href="${this.link}"><button class="det">Details</button></a>
 
-
     </div>
+
 
     `;
   }
@@ -134,6 +166,8 @@ export class MyCard extends LitElement {
       link: { type: String },
       cardImg: { type: String },
       para: { type: String },
+      fancy : { type: Boolean, reflect: true },
+
     };
   }
 }
