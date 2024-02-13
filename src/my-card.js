@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import "@lrnwebcomponents/meme-maker/meme-maker.js";
 
 /**
  * Now it's your turn. Here's what we need to try and do
@@ -20,6 +21,8 @@ export class MyCard extends LitElement {
     this.cardImg = "https://free-icon-rainbow.com/i/icon_00201/icon_002010_256.png";
     this.para = "Interesting text goes here.";
     this.fancy = false;
+    this.topText = "top text";
+    this.bottomText = "bottom text";
 
   }
 
@@ -146,7 +149,8 @@ export class MyCard extends LitElement {
     return html`
     <div>
       <h1 class="title">${this.title}</h1>
-      <img class="cardImg" src="${this.cardImg}"><img>
+      <meme-maker alt="a image." image-url="${this.cardImg}" top-text="${this.topText}" bottom-text="${this.bottomText}"></meme-maker>
+      <!--<img class="cardImg" src="${this.cardImg}"><img> -->
       <!-- <p class="para">${this.para}</p> -->
       <!-- Fancy card-->
       <details ?open="${this.fancy}" @toggle="${this.openChanged}">
@@ -171,6 +175,8 @@ export class MyCard extends LitElement {
       cardImg: { type: String },
       para: { type: String },
       fancy : { type: Boolean, reflect: true },
+      topText : {type: String },
+      bottomText : {type: String },
 
     };
   }
