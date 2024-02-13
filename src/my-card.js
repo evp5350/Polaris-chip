@@ -40,6 +40,10 @@ export class MyCard extends LitElement {
         overflow: auto;
       }
 
+      :host([fancy]) .title {
+        color: gold;
+      }
+
 
       .cardlist {
         display: flex;
