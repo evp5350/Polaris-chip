@@ -23,6 +23,30 @@
       background-color: orange; 
     }
 
+    counter-app {
+      height: 200px;
+      width: 200px;
+      margin: 16px;
+
+    }
+    
+    counter-app counterTitle {
+      color: black;
+    }
+
+    counter-app display {
+      color: black;
+    }
+
+    counter-app addOne {
+      background-color: green;
+    }
+    counter-app subOne {
+      background-color: red;
+    }
+
+
+
     my-card {
       height: 500px;
       width: 400px;
@@ -44,16 +68,17 @@
     }
 
     my-card para {
-      font-size: 15px;
+      font-size: 9px;
       color: white;
     }
 
 
   </style>
-  <title>polaris-chip / my-card</title>
+  <title>polaris-chip / my-card / counter-app</title>
 </head>
 
 <body>
+  <h1>______________________________________________________________________________________________</h1>
   <h1>polaris-chip</h1>
   <!-- this is going to do whatever the tag's defaults are -->
   <polaris-chip title = "News of Record" link="https://www.psu.edu/"></polaris-chip>
@@ -67,7 +92,17 @@
   <polaris-chip></polaris-chip>
   <!-- this is going to take the tag and change the title -->
   <polaris-chip title="Cool"></polaris-chip>
+  <h1>______________________________________________________________________________________________</h1>
 
+  <h1> Counter App</h1>
+  <div id="number-machine">
+    <counter-app display="0"></counter-app>
+  </div>
+
+
+
+
+  <h1>______________________________________________________________________________________________</h1>
   <h1> Penn State Places</h1>
   <h2> Controls</h2>
   <div class="control-wrapper">
@@ -85,14 +120,22 @@
     <my-card title = "USS Pennsylvania(BB-38) Bell" link="https://www.psu.edu/news/campus-life/story/battleship-bell-campus-still-serve-reminders-pearl-harbor/" cardImg="https://i0.wp.com/onwardstate.com/wp-content/uploads/2015/10/11239208584_21c72e6369_n.jpg?resize=700%2C486" para="the other liberty bell." topText=" " bottomText="botes."></my-card>
     <my-card title = "Berkley Creamery" link="https://creamery.psu.edu/" cardImg="https://upload.wikimedia.org/wikipedia/commons/2/2d/Pennsylvania_State_University_Food_Science_Building_and_Berkey_Creamery_May_15%2C_2010.jpg" para="Ping of Death Chocolate" topText=" " bottomText="ice cream"></my-card>
     <my-card title = "HUB-Robeson Center" link="https://studentaffairs.psu.edu/hub" cardImg="https://studentaffairs.psu.edu/sites/default/files/styles/dept_image_800x330/public/2018-02/PageBanner_HUB_HUB-Back_07_17_2.jpg?itok=OqyhKaVG" para="DA HUUUUBBB!!!!111!!!!!" topText=" " bottomText="DA HUUUUBBB!!!!111!!!!!"></my-card>
-    <my-card></my-card>
+    <my-card title = "0"></my-card>
     <my-card></my-card>
     <my-card></my-card>
   </div>
+  <h1>______________________________________________________________________________________________</h1>
   <!-- this is what is bringing in the definition for this tag -->
   <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
+  <script type="module" src="./src/counter-app.js"></script>
 
+
+
+
+
+
+  <!--Card Script------------------------------------------------------------------------------------>
   <script>
     //dupe and logic
     document.querySelector('.duplicate').addEventListener('click', function(event) {
@@ -103,10 +146,6 @@
         document.querySelector('#cardlist').appendChild(newCard);
       }
     });
-    
-    
-    
-    
     // change title
     document.querySelector('.changetext').addEventListener('click', function(e) {
       const myCard = document.querySelector('my-card');
@@ -115,7 +154,6 @@
     
       cardTitle.textContent = "Purble Place";
     })
-    
     // change image
     document.querySelector('.changeimage').addEventListener('click',function(e) {
       const myCard = document.querySelector('my-card');
@@ -126,9 +164,6 @@
     
     
     });
-    
-    
-    
     // css change bg
     document.querySelector('.changebg').addEventListener('click', function(e) {
       const myCards = document.querySelector('my-card');
@@ -142,9 +177,6 @@
         });
       });
     });
-    
-    
-    
     // delete cards
     document.querySelector('.delete').addEventListener('click', function(e) {
       const cards = document.querySelectorAll('my-card');
@@ -154,7 +186,6 @@
         lastCard.remove();
       }
     });
-    
     //restore bg color
     document.querySelector('.bgcolor').addEventListener('click', function(e) {
       const myCards = document.querySelector('my-card');
@@ -168,6 +199,14 @@
         });
       });
     });
+    </script>
+
+
+
+
+    <!---Counter App Script------------------------------------------------------------------------------------>
+    <script>
+
     </script>
 </body>
 </html>
