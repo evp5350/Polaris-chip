@@ -10,6 +10,8 @@ export class CounterApp extends LitElement {
         super();
         this.counterTitle = "Learn to Count";
         this.display = 0;
+        this.counterMin = 0;
+        this.counterMax = 1;
 
 
     }
@@ -68,6 +70,23 @@ export class CounterApp extends LitElement {
             background-color: gray;
         }
 
+        .counterMin {
+            font-family: georgia;
+            font-size: 20px;
+            color: black;
+            margin: 4px;
+            padding: 4px;
+        }
+        .counterMax {
+            font-family: georgia;
+            font-size: 20px;
+            color: black;
+            margin: 4px;
+            padding: 4px;
+        }
+
+
+
     `;
     }
 
@@ -79,6 +98,8 @@ export class CounterApp extends LitElement {
             <button class="addOne">+</button>
             <button class="subOne">-</button>
         </div>
+        <p class="counterMin">Min: ${this.counterMin}</p>
+        <p class="counterMax">Max: ${this.counterMax}</p>
         `;
     }
 
@@ -86,6 +107,8 @@ export class CounterApp extends LitElement {
         return {
             counterTitle: { type: String },
             display: { type: Number },
+            counterMin: { type: Number },
+            counterMax: { type: Number },
         };
     }
 }
