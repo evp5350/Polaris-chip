@@ -12,6 +12,7 @@ export class CounterApp extends LitElement {
         this.display = 0;
         this.counterMin = 0;
         this.counterMax = 1;
+        this.message = "---";
 
 
     }
@@ -25,6 +26,13 @@ export class CounterApp extends LitElement {
             border: 5px solid black;
             margin: 8px;
             padding: 8px;
+        }
+        :host ([display=counterMin]) .subOne {
+            color: orange;
+        }
+
+        :host ([display=counterMax]) .addOne {
+            color: orange;
         }
 
         .counterTitle {
@@ -85,9 +93,36 @@ export class CounterApp extends LitElement {
             padding: 4px;
         }
 
-
-
+        .message {
+            font-family: georgia;
+            font-size: 10px;
+            color: black;
+            margin: 4px;
+            padding: 4px; 
+        }
     `;
+    }
+
+    increase(){
+        if (this.display === this.counterMax){
+            this.display += 0;
+            this.messaage === "Maximum interger reached!";
+        }
+        else {
+            this.display += 1;
+            this.messaage === "---";
+        }
+    }
+
+    decrease(){
+        if (this.display === this.counterMin){
+            this.display -= 0;
+            this.messaage === "Minimum interger reached!";
+        }
+        else {
+            this.display -= 1;
+            this.messaage === "---";
+        }
     }
 
     render() {
@@ -95,18 +130,18 @@ export class CounterApp extends LitElement {
         <div>
             <h2 class="counterTitle">${this.counterTitle}</h2>
             <h2 class="display">${this.display}</h2>
-            <button class="addOne">+</button>
-            <button class="subOne">-</button>
+            <button class="addOne" @click="${this.increase}">+</button>
+            <button class="subOne" @click="${this.decrease}">-</button>
+            <p class="message">${this.message}</p>
+
         </div>
-        <p class="counterMin">Min: ${this.counterMin}</p>
-        <p class="counterMax">Max: ${this.counterMax}</p>
         `;
     }
-
     static get properties() {
         return {
             counterTitle: { type: String },
-            display: { type: Number },
+            display: { type: Number, reflect: true },
+            message: { type: String, reflect: true },
             counterMin: { type: Number },
             counterMax: { type: Number },
         };
