@@ -9,10 +9,12 @@ export class CounterApp extends LitElement {
     constructor() {
         super();
         this.counterTitle = "Learn to Count";
-        this.display = 0;
+        this.counter = 0;
         this.counterMin = 0;
         this.counterMax = 1;
         this.message = "---";
+        this.maxReached = false;
+        this.minReached = false;
 
 
     }
@@ -27,12 +29,20 @@ export class CounterApp extends LitElement {
             margin: 8px;
             padding: 8px;
         }
-        :host ([display=counterMin]) .subOne {
+        :host([counter="18"]) .counter {
             color: orange;
         }
 
-        :host ([display=counterMax]) .addOne {
-            color: orange;
+        :host([counter="21"]) .counter {
+            color: green;
+        }
+
+        :host([counter="0"]) .counter {
+            color: red;
+        }
+
+        :host([counter="30"]) .counter {
+            color: red;
         }
 
         .counterTitle {
@@ -42,7 +52,7 @@ export class CounterApp extends LitElement {
             padding: 4px;
         }
 
-        .display {
+        .counter {
             font-family: georgia;
             font-size: 40px;
             color: black;
@@ -60,7 +70,7 @@ export class CounterApp extends LitElement {
         }
 
         .subOne {
-            background-color: red;
+            background-color: #800000;
             color: black;
             font-size: 20px;
             font-family: Georgia;
@@ -70,12 +80,12 @@ export class CounterApp extends LitElement {
 
         .addOne:focus,
         .addOne:hover {
-            background-color: gray;
+            background-color: #00ff00;
         }
 
         .subOne:focus,
         .subOne:hover {
-            background-color: gray;
+            background-color: #ff0000;
         }
 
         .counterMin {
@@ -95,43 +105,71 @@ export class CounterApp extends LitElement {
 
         .message {
             font-family: georgia;
-            font-size: 10px;
+            font-size: 12px;
             color: black;
             margin: 4px;
             padding: 4px; 
         }
+
     `;
     }
 
     increase(){
-        if (this.display === this.counterMax){
-            this.display += 0;
-            this.messaage === "Maximum interger reached!";
+        if (this.counter === this.counterMax){
+            this.message = "Maximum value reached!";
+            this.counter += 0;
         }
         else {
-            this.display += 1;
-            this.messaage === "---";
+            this.message = "---";
+            this.counter += 1;
         }
     }
 
     decrease(){
-        if (this.display === this.counterMin){
-            this.display -= 0;
-            this.messaage === "Minimum interger reached!";
+        if (this.counter === this.counterMin){
+            this.message = "Minimum value reached!";
+            this.counter -= 0;
         }
         else {
-            this.display -= 1;
-            this.messaage === "---";
+            this.message = "---";
+            this.counter -= 1;
         }
+    }
+
+    updated(changedProperties) {
+        if (changedProperties.has('counter') && (this.counter === 21)) {
+          // do your testing of the value and make it rain by calling makeItRain
+          return this.makeItRain();
+        }
+      }
+      
+      makeItRain() {
+        // this is called a dynamic import. It means it won't import the code for confetti until this method is called
+        // the .then() syntax after is because dynamic imports return a Promise object. Meaning the then() code
+        // will only run AFTER the code is imported and available to us
+        import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
+          (module) => {
+            // This is a minor timing 'hack'. We know the code library above will import prior to this running
+            // The "set timeout 0" means "wait 1 microtask and run it on the next cycle.
+            // this "hack" ensures the element has had time to process in the DOM so that when we set popped
+            // it's listening for changes so it can react
+            setTimeout(() => {
+              // forcibly set the poppped attribute on something with id confetti
+              // while I've said in general NOT to do this, the confetti container element will reset this
+              // after the animation runs so it's a simple way to generate the effect over and over again
+              this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+            }, 0);
+          }
+        );
     }
 
     render() {
         return html`
         <div>
             <h2 class="counterTitle">${this.counterTitle}</h2>
-            <h2 class="display">${this.display}</h2>
-            <button class="addOne" @click="${this.increase}">+</button>
-            <button class="subOne" @click="${this.decrease}">-</button>
+            <confetti-container id="confetti"><h2 class="counter">${this.counter}</h2></confetti-container>
+            <button class="addOne" @click="${this.increase}" ?disabled="${this.counter === this.counterMax}">+</button>
+            <button class="subOne" @click="${this.decrease}" ?disabled="${this.counter === this.counterMin}">-</button>
             <p class="message">${this.message}</p>
 
         </div>
@@ -140,7 +178,7 @@ export class CounterApp extends LitElement {
     static get properties() {
         return {
             counterTitle: { type: String },
-            display: { type: Number, reflect: true },
+            counter: { type: Number, reflect: true },
             message: { type: String, reflect: true },
             counterMin: { type: Number },
             counterMax: { type: Number },

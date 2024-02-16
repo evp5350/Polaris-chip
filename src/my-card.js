@@ -152,6 +152,8 @@ export class MyCard extends LitElement {
       <meme-maker alt="a image." image-url="${this.cardImg}" top-text="${this.topText}" bottom-text="${this.bottomText}"></meme-maker>
       <!--<img class="cardImg" src="${this.cardImg}"><img> -->
       <!-- <p class="para">${this.para}</p> -->
+
+      
       <!-- Fancy card-->
       <details ?open="${this.fancy}" @toggle="${this.openChanged}">
       <summary>Description</summary>
