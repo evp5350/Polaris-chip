@@ -16,7 +16,6 @@ export class CounterApp extends LitElement {
         this.maxReached = false;
         this.minReached = false;
 
-
     }
 
     static get styles() {
@@ -28,21 +27,6 @@ export class CounterApp extends LitElement {
             border: 5px solid black;
             margin: 8px;
             padding: 8px;
-        }
-        :host([counter="18"]) .counter {
-            color: orange;
-        }
-
-        :host([counter="21"]) .counter {
-            color: green;
-        }
-
-        :host([counter="0"]) .counter {
-            color: red;
-        }
-
-        :host([counter="30"]) .counter {
-            color: red;
         }
 
         .counterTitle {
@@ -115,7 +99,8 @@ export class CounterApp extends LitElement {
     }
 
     increase(){
-        if (this.counter === this.counterMax){
+
+        if (this.counter === this.counterMax || this. counter >= this.counterMax){
             this.message = "Maximum value reached!";
             this.counter += 0;
         }
@@ -126,7 +111,7 @@ export class CounterApp extends LitElement {
     }
 
     decrease(){
-        if (this.counter === this.counterMin){
+        if (this.counter === this.counterMin || this. counter <= this.counterMin){
             this.message = "Minimum value reached!";
             this.counter -= 0;
         }
@@ -167,9 +152,13 @@ export class CounterApp extends LitElement {
         return html`
         <div>
             <h2 class="counterTitle">${this.counterTitle}</h2>
-            <confetti-container id="confetti"><h2 class="counter">${this.counter}</h2></confetti-container>
+            <confetti-container id="confetti"><h2 class="counter" style=${this.counter >= 21 ? 'color: green;' : this.counter >= 18 ? 'color: orange;' : this.counter === this.counterMin ? 'color: red;': ''}>
+                ${this.counter}
+            </h2></confetti-container>
+            
             <button class="addOne" @click="${this.increase}" ?disabled="${this.counter === this.counterMax}">+</button>
             <button class="subOne" @click="${this.decrease}" ?disabled="${this.counter === this.counterMin}">-</button>
+            
             <p class="message">${this.message}</p>
 
         </div>
@@ -179,7 +168,7 @@ export class CounterApp extends LitElement {
         return {
             counterTitle: { type: String },
             counter: { type: Number, reflect: true },
-            message: { type: String, reflect: true },
+            message: { type: String },
             counterMin: { type: Number },
             counterMax: { type: Number },
         };
