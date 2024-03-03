@@ -18,8 +18,8 @@ export class AlertManage extends LitElement {
         this.wrapperStatus = 'false';
 
         const statusDetails = localStorage.getItem('alertStatus');
-        if (statusDetails === 'Closed') {
-            this.style.setProperty('--al-height', '120px');
+        if (statusDetails === 'Close') {
+            this.style.setProperty('--al-height', '110px');
             this.style.setProperty('--details-vision','0')
         }
     }
@@ -29,7 +29,7 @@ export class AlertManage extends LitElement {
         :host {
             background-color: navy;
             display: flex;
-            height: var(--al-height, 200px);
+            height: var(--al-height, 250px);
             overflow: hidden;
             transition: all 0.3s ease;
             text-align: center;
@@ -169,9 +169,9 @@ export class AlertManage extends LitElement {
         this.wrapperStatus = !this.wrapperStatus;
 
         if(!this.wrapperStatus) {
-            this.style.setProperty('--al-height', '120px');
+            this.style.setProperty('--al-height', '110px');
             this.style.setProperty('--details-vision','0')
-            localStorage.setItem('alertStatus', 'Closed');
+            localStorage.setItem('alertStatus', 'Close');
         }
 
         else {
