@@ -14,16 +14,14 @@ export class AlertManage extends LitElement {
         this.alertMessage = "THIS IS A TEST ALERT MESSAGE.";
         this.alertLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/White_alert_icon.svg/308px-White_alert_icon.svg.png";
         this.alertDetails = "WEE WOO WEE WOO WEE WOO";
-        this.setHeight = '150px';
+        this.setHeight = '300px';
         this.wrapperStatus = 'false';
 
         const statusDetails = localStorage.getItem('alertStatus');
         if (statusDetails === 'Closed') {
-            this.style.setProperty('--al-height', '50px');
+            this.style.setProperty('--al-height', '120px');
+            this.style.setProperty('--details-vision','0')
         }
-
-
-
     }
 
     static get styles() {
@@ -31,38 +29,40 @@ export class AlertManage extends LitElement {
         :host {
             background-color: navy;
             display: flex;
-            height: var(--al-height, 100px);
+            height: var(--al-height, 200px);
             overflow: hidden;
             transition: all 0.3s ease;
             text-align: center;
             position: sticky;
-            border: 3px solid black;
             top: 0;
             z-index: 1000;
     
         }
+
+        :host([priority="WW"]) {
+            background-color: lightblue;
+        }
+
         :host([priority="M"]) {
             background-color: orange;
         }
-
+        
         :host([priority="H"]) {
             background-color: #800020;
         }
 
-        :host([open]) {
-            max-height: var(--al-height, 150px);
-
-        }
 
         .time-wrapper {
             background-color: darkslateblue;
-            height: auto;
-            width: auto;
+            height: 75px;
+            width: 200px;
             padding: 8px;
             margin: 8px;
         }
 
         .message-wrapper {
+            height: 500px;
+            width: 500px;
             padding: 8px;
             margin: 8px;
         }
@@ -74,28 +74,28 @@ export class AlertManage extends LitElement {
 
         .alertDate {
             font-family: georgia;
-            font-size: 20px;
+            font-size: 15px;
             color: white;
-            margin: 4px;
-            padding: 4px;
+            margin: 0px;
+            padding: 0px;
             text-align: left;
 
         }
 
         .alertTime {
             font-family: georgia;
-            font-size: 20px;
+            font-size: 15px;
             color: white;
-            margin: 4px;
-            padding: 4px;
+            margin: 0px;
+            padding: 0px;
             text-align: left;
         }
 
         .alertMessage {
             font-family: georgia;
             color: white;
-            margin: 4px;
-            padding: 4px;
+            margin: 0px;
+            padding: 0px;
             text-align: left;
         }
 
@@ -103,26 +103,35 @@ export class AlertManage extends LitElement {
             font-family: helvetica;
             font-size: 15px;
             color: white;
-            margin: 16px;
-            padding: 4px;
+            margin: 0px;
+            padding: 0px;
+            opacity: var(--details-vision, 1);
+            transition: all 0.3s ease-in-out;
         }
 
         .alertLogo {
-            width: 100px;
-            height: 100px;
+            width: 85px;
+            height: 75px;
             margin: 8px;
             padding: 8px;
         }
 
         .cButton {
+            background-color: transparent;
+            border: transparent;
             text-align: center;
-            height: 40px;
-            width: 40px;
-            color: black;
-            font-size: 10px;
-            font-family: Georgia;
-            padding: 4px;
+            height: 50px;
+            width: 50px;
             margin: 4px;
+            padding: 4px;
+            color: white;
+            font-size: 15px;
+            font-family: Georgia;
+            position: absolute;
+            top: 10%;
+            right: 40%;
+            bottom: 20%;
+            left: 95%;
         }
 
         .cButton:focus,
@@ -130,7 +139,6 @@ export class AlertManage extends LitElement {
             background-color: lightgray;
         }
 
-/*
         @media only screen and (max-width: 800px) {
             
             .time-wrapper {
@@ -143,13 +151,16 @@ export class AlertManage extends LitElement {
                 width: auto;
             }
 
-
             .logo-wrapper {
                 height: auto;
                 width: auto;
             }
+
+            .cButton {
+                right: 10%;
+            }
+
         }
-*/
 
     `;
     }
@@ -158,12 +169,14 @@ export class AlertManage extends LitElement {
         this.wrapperStatus = !this.wrapperStatus;
 
         if(!this.wrapperStatus) {
-            this.style.setProperty('--al-height', '50px');
+            this.style.setProperty('--al-height', '120px');
+            this.style.setProperty('--details-vision','0')
             localStorage.setItem('alertStatus', 'Closed');
         }
 
         else {
             this.style.removeProperty('--al-height');
+            this.style.removeProperty('--details-vision');
             localStorage.removeItem('alertStatus');
         }
     }
@@ -177,6 +190,8 @@ export class AlertManage extends LitElement {
                 <p>${this.alertTime}</p>
             </div>
         </div>
+
+        <img class="alertLogo" src="${this.alertLogo}"></img>
 
 
         <div class="message-wrapper">
