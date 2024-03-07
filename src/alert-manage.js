@@ -9,13 +9,13 @@ export class AlertManage extends LitElement {
     constructor() {
         super();
         this.priority = "L";
-        this.alertDate = "January 1, 2000";
+        this.alertDate = "JANUARY 1, 2000";
         this.alertTime = "00:00 A.M.";
         this.alertMessage = "THIS IS A TEST ALERT MESSAGE.";
-        this.alertLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/White_alert_icon.svg/308px-White_alert_icon.svg.png";
+        this.alertLogo = "https://static.thenounproject.com/png/10890-200.png";
         this.alertDetails = "WEE WOO WEE WOO WEE WOO";
-        this.setHeight = '300px';
         this.wrapperStatus = 'false';
+        this.sticky = "NS";
 
         const statusDetails = localStorage.getItem('alertStatus');
         if (statusDetails === 'Close') {
@@ -27,86 +27,127 @@ export class AlertManage extends LitElement {
     static get styles() {
         return css`
         :host {
-            background-color: navy;
+            background-color: #bd2d02;
             display: flex;
-            height: var(--al-height, 250px);
+            height: var(--al-height, 200px);
             overflow: hidden;
-            transition: all 0.3s ease;
-            text-align: center;
+            align-content: center;
             position: sticky;
             top: 0;
             z-index: 1000;
     
         }
 
+
         :host([priority="WW"]) {
             background-color: lightblue;
         }
 
+        :host([priority="WW"]) .message-wrapper {
+            background-color: white;
+        }
+
+        :host([priority="WW"]) .message-tri {
+            border-right: 100px solid white;
+        }
+
+
         :host([priority="M"]) {
             background-color: orange;
         }
+
+        :host([priority="M"]) .message-wrapper {
+            background-color: gold;
+        }
+
+        :host([priority="M"]) .message-tri {
+            border-right: 100px solid gold;
+        }
         
+
         :host([priority="H"]) {
-            background-color: #800020;
+            background-color: #881726;
+        }
+
+        :host([priority="H"]) .message-wrapper {
+            background-color: #cc0000;
+        }
+
+        :host([priority="H"]) .message-tri {
+            border-right: 100px solid #cc0000;
         }
 
 
         .time-wrapper {
-            background-color: darkslateblue;
+            background-color: transparent;
             height: 75px;
             width: 200px;
             padding: 8px;
             margin: 8px;
+            opacity: var(--details-vision, 1);
+            position: sticky;
+            top: 25%;
+            left: 2%;
+            
         }
 
         .message-wrapper {
-            height: 500px;
-            width: 500px;
-            padding: 8px;
-            margin: 8px;
+            height: auto;
+            width: 60%;
+            padding: 0px;
+            margin: 0px;
+            background-color: orange;
+            transform: skewX(10deg);
+	        transform-origin: top;
+	        justify-content: center;
+	        align-items: center;
+            
         }
 
-        .logo-wrapper {
-            padding: 8px;
-            margin: 8px;
+        .message-wrapper > span {
+	        transform: skewX(-10deg);
         }
 
         .alertDate {
-            font-family: georgia;
-            font-size: 15px;
-            color: white;
+            font-family: arial;
+            font-size: 16px;
+            color: black;
             margin: 0px;
             padding: 0px;
             text-align: left;
+            font-weight: bold;
+            opacity: var(--details-vision, 1);
 
         }
 
         .alertTime {
-            font-family: georgia;
-            font-size: 15px;
-            color: white;
+            font-family: arial;
+            font-size: 16px;
+            color: black;
             margin: 0px;
             padding: 0px;
             text-align: left;
+            font-weight: bold;
+            opacity: var(--details-vision, 1);
         }
 
         .alertMessage {
-            font-family: georgia;
-            color: white;
-            margin: 0px;
+            font-family: arial;
+            color: black;
+            margin: 32px;
             padding: 0px;
             text-align: left;
+            font-style: italic;
+        
         }
 
         .alertDetails {
-            font-family: helvetica;
+            font-family: arial;
             font-size: 15px;
-            color: white;
+            color: black;
             margin: 0px;
             padding: 0px;
             opacity: var(--details-vision, 1);
-            transition: all 0.3s ease-in-out;
         }
 
         .alertLogo {
@@ -114,6 +155,7 @@ export class AlertManage extends LitElement {
             height: 75px;
             margin: 8px;
             padding: 8px;
+            
         }
 
         .cButton {
@@ -124,14 +166,30 @@ export class AlertManage extends LitElement {
             width: 50px;
             margin: 4px;
             padding: 4px;
-            color: white;
+            color: black;
             font-size: 15px;
-            font-family: Georgia;
-            position: absolute;
-            top: 10%;
-            right: 40%;
-            bottom: 20%;
+            font-family: arial;
+            font-weight: bold;
+            position: sticky;
             left: 95%;
+            
+        }
+
+        .message-tri {
+            margin: 0px;
+            padding: 0px; 
+            width: 0;
+            height: 0;
+            border-top: 50px solid transparent;
+            border-right: 100px solid orange;
+            border-bottom: 50px solid transparent;
+            rotate: -30deg;
+            z-index: -1;
+            opacity: var(--details-vision, 1);
+            position: sticky;
+            top: 50%;
+            left: 22%;
+            
         }
 
         .cButton:focus,
@@ -140,15 +198,15 @@ export class AlertManage extends LitElement {
         }
 
         @media only screen and (max-width: 800px) {
-            
-            .time-wrapper {
-                height: auto;
-                width: auto;
-            }
 
             .message-wrapper {
                 height: auto;
-                width: auto;
+                width: 400px;
+            }
+            .message-tri {
+                position: sticky;
+                top: 50%;
+                left: 10%;
             }
 
             .logo-wrapper {
@@ -156,12 +214,8 @@ export class AlertManage extends LitElement {
                 width: auto;
             }
 
-            .cButton {
-                right: 10%;
-            }
 
         }
-
     `;
     }
 
@@ -170,7 +224,7 @@ export class AlertManage extends LitElement {
 
         if(!this.wrapperStatus) {
             this.style.setProperty('--al-height', '110px');
-            this.style.setProperty('--details-vision','0')
+            this.style.setProperty('--details-vision','0');
             localStorage.setItem('alertStatus', 'Close');
         }
 
@@ -184,6 +238,7 @@ export class AlertManage extends LitElement {
 
     render() {
         return html`
+
         <div class="time-wrapper">
             <div class="alertTime">
                 <p>${this.alertDate}</p>
@@ -191,20 +246,21 @@ export class AlertManage extends LitElement {
             </div>
         </div>
 
-        <img class="alertLogo" src="${this.alertLogo}"></img>
+        
+        <img class="alertLogo" src="${this.alertLogo}" alt="alert-logo"></img>
 
-
-        <div class="message-wrapper">
+        <div class="message-tri"></div>
+        <div class="message-wrapper"><span>
             <div class="alertMessage">
                 <h2>${this.alertMessage}</h2>    
-                <p class="alertDetails">${this.alertDetails}</p>
+                <slot><p class="alertDetails">${this.alertDetails}<a href="https://www.psu.edu/news"> Penn State News</a></p></slot>
             </div>
-        </div>
+            
+        </span></div>
 
         <button class="cButton" @click="${this.toggleAlert}">
-            ${this.wrapperStatus ? 'Close' : 'Open'}
+            ${this.wrapperStatus ? 'Close' : 'V'}
         </button>
-
         `;
     }
 
@@ -218,6 +274,7 @@ export class AlertManage extends LitElement {
             alertDetails: { type: String, attribute: "alert-details" },
             alertLogo: { type: String, attribute: "alert-logo" },
             wrapperStatus: { type: Boolean, reflect: true },
+            sticky: { type: String },
             
 
             
