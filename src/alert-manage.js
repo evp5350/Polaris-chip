@@ -176,6 +176,9 @@ export class AlertManage extends LitElement {
         }
 
         .message-tri {
+            position: sticky;
+            top: 50%;
+            left: 22%;
             margin: 0px;
             padding: 0px; 
             width: 0;
@@ -186,10 +189,6 @@ export class AlertManage extends LitElement {
             rotate: -30deg;
             z-index: -1;
             opacity: var(--details-vision, 1);
-            position: sticky;
-            top: 50%;
-            left: 22%;
-            
         }
 
         .cButton:focus,
@@ -203,10 +202,11 @@ export class AlertManage extends LitElement {
                 height: auto;
                 width: 400px;
             }
+
             .message-tri {
                 position: sticky;
                 top: 50%;
-                left: 10%;
+                left: 30%;
             }
 
             .logo-wrapper {
