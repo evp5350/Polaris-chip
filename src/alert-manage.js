@@ -201,6 +201,7 @@ export class AlertManage extends LitElement {
             .message-wrapper {
                 height: auto;
                 width: 400px;
+                background-color: transparent;
             }
 
             .message-tri {
