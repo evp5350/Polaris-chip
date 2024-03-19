@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit';
+import "@lrnwebcomponents/rpg-character/rpg-character.js";
+
 
 export class PartyUI extends LitElement {
 
