@@ -15,12 +15,13 @@ export class AlertManage extends LitElement {
         this.alertLogo = "https://static.thenounproject.com/png/10890-200.png";
         this.alertDetails = "WEE WOO WEE WOO WEE WOO";
         this.wrapperStatus = 'false';
-        this.sticky = "NS";
+        this.sticky = 'false';
 
         const statusDetails = localStorage.getItem('alertStatus');
         if (statusDetails === 'Close') {
             this.style.setProperty('--al-height', '110px');
-            this.style.setProperty('--details-vision','0')
+            this.style.setProperty('--details-vision','0');
+            
         }
     }
 
@@ -36,6 +37,12 @@ export class AlertManage extends LitElement {
             top: 0;
             z-index: 1000;
     
+        }
+
+        :host([sticky]) {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
 
@@ -201,7 +208,6 @@ export class AlertManage extends LitElement {
             .message-wrapper {
                 height: auto;
                 width: 400px;
-                background-color: transparent;
             }
 
             .message-tri {
@@ -275,7 +281,7 @@ export class AlertManage extends LitElement {
             alertDetails: { type: String, attribute: "alert-details" },
             alertLogo: { type: String, attribute: "alert-logo" },
             wrapperStatus: { type: Boolean, reflect: true },
-            sticky: { type: String },
+            sticky: { type: Boolean,  },
             
 
             
