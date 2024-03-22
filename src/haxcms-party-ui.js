@@ -120,11 +120,13 @@ export class PartyUI extends LitElement {
 
             <div class="friendList">
                 <div>
-                    <p style="text-aign: center; ">placeholder user</p>
+                    <rpg-character hat="random" seed="haxtheweb"></rpg-character>
+                    <p style="text-aign: left; ">placeholder user</p>
                 </div>
                 <button class="removeMember">Remove Member</button>
             
             </div>
+            
             <p style="font-family: comic sans ms;">where we droppin?</p>
             
         
