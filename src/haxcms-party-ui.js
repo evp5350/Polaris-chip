@@ -44,6 +44,20 @@ export class PartyUI extends DDD {
                 margin-left: var(--ddd-spacing-4);
                 
             }
+            
+            .rules {
+                margin: var(--ddd-spacing-3);
+                padding: var(--ddd-spacing-6);
+                width: 80%;
+                background-color: var(--ddd-theme-default-nittanyNavy);
+
+            }
+
+            .ruleText {
+                font-family: "Press Start 2P", system-ui;
+                font-size: 15px;
+
+            }
 
             .partyDisplay {
                 text-align: left;
@@ -103,7 +117,7 @@ export class PartyUI extends DDD {
                 background-color: var(--ddd-theme-default-nittanyNavy);
                 color: var(--ddd-theme-default-roarMaxlight);
                 transform: scale(1.1);
-                transition: 0.3s ease-in-out
+                transition: 0.3s ease-in-out;
             }
 
             .saveParty:focus,
@@ -135,11 +149,14 @@ export class PartyUI extends DDD {
                 <div class="partyList">
                     <h2 style="font-family: system.ui; color: white; text-align: center;">Create a Division</h2>
                     <input type="text" class="search-input" placeholder="Add a division member."/>
-                    <p style="font-size: var(--ddd-font-size-3xs);">Input Rules:</p>
-                    <p style="font-size: var(--ddd-font-size-3xs);">- Division can only have a maxmimum of 5 members.</p>
-                    <p style="font-size: var(--ddd-font-size-3xs);">- Maximum of 10 characters.</p>
-                    <p style="font-size: var(--ddd-font-size-3xs);">- Only lowercase letters.</p>
-                    <p style="font-size: var(--ddd-font-size-3xs);">- No special characters.</p>
+                    
+                    <div class="rules">
+                            <p class="ruleText">Input Rules:</p>
+                            <p class="ruleText">- Division can only have a maxmimum of 5 members.</p>
+                            <p class="ruleText">- Maximum of 10 characters.</p>
+                            <p class="ruleText">- Only lowercase letters.</p>
+                            <p class="ruleText">- No special characters.</p>
+                    </div>
 
                     <div class="buttonWrapper">
                         <button class="saveParty" @click="${this.makeItRain}">Save Party</button>
