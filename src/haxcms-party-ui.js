@@ -134,7 +134,12 @@ export class PartyUI extends DDD {
             <confetti-container id="confetti">
                 <div class="partyList">
                     <h2 style="font-family: system.ui; color: white; text-align: center;">Create a Division</h2>
-                    <input type="text" class="search-input" placeholder="Search party member"/>
+                    <input type="text" class="search-input" placeholder="Add a division member."/>
+                    <p style="font-size: var(--ddd-font-size-3xs);">Input Rules:</p>
+                    <p style="font-size: var(--ddd-font-size-3xs);">- Division can only have a maxmimum of 5 members.</p>
+                    <p style="font-size: var(--ddd-font-size-3xs);">- Maximum of 10 characters.</p>
+                    <p style="font-size: var(--ddd-font-size-3xs);">- Only lowercase letters.</p>
+                    <p style="font-size: var(--ddd-font-size-3xs);">- No special characters.</p>
 
                     <div class="buttonWrapper">
                         <button class="saveParty" @click="${this.makeItRain}">Save Party</button>
