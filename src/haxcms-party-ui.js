@@ -1,146 +1,222 @@
 import { LitElement, html, css } from 'lit';
 import "@lrnwebcomponents/rpg-character/rpg-character.js";
+import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
+import { RpgCharacter } from '@lrnwebcomponents/rpg-character/rpg-character.js';
 
-
-export class PartyUI extends LitElement {
-
+export class PartyUI extends DDD {
     static get tag() {
-      return 'haxcms-party-ui';
+        return "haxcms-party-ui";
     }
-
+  
     constructor() {
         super();
-        this.icon = "https://cdn-icons-png.flaticon.com/512/880/880594.png";
-        this.darkMode = false;
+      
+        this.saved = false;
+        this.party = ["john doe", "jane doe", "evp5350"];
     }
-
+  
     static get styles() {
-        return css`
-        :host {
-            display: flex;
-            margin: 4px;
-            padding: 4px;
-        }
+        return [
+        super.styles,
+        css`
+            :host {
+                display: flex;
+                overflow: auto;
+            }
+            .partyList {
+                background-color: var(--ddd-theme-default-beaverBlue);
+                min-width: 100vh;
+                height: 620px;
+                padding: var(--ddd-spacing-4);
+                color: white;
+                overflow: auto;
 
-        :host([darkMode]) .partyInvite {
-            background-color: black;
-            color: white;
-            border: 3px solid white;
-        }
+            }
 
-        .friendIcon {
-            height: 30px;
-            width: 30px;
-            margin: 8px;
-            padding: 8px;
+            .username {
+                font-family: "Press Start 2P", system-ui;
+                margin: var(--ddd-spacing-3);
+                padding: var(--ddd-spacing-6);
+            }
+
+            .buttonWrapper {
+                display: flex;
+                margin-left: var(--ddd-spacing-4);
+                
+            }
+
+            .partyDisplay {
+                text-align: left;
+            }
+
+            .partyInvite {
+                font-family: "Press Start 2P", system-ui;
+                font-size: var(--ddd-font-size-3xs);
+                font-weight: 500;
+                color: blue;
+                min-width: 150px;
+                margin: var(--ddd-spacing-3);
+                padding: var(--ddd-spacing-6);
+                border: var(--ddd-border-sm);
+                border-color: var(--ddd-theme-default-nittanyNavy);
+                background-color: var(--ddd-theme-default-roarMaxlight);
+
+            }
+
+            .removeMember {
+                font-family: "Press Start 2P", system-ui;
+                font-size: var(--ddd-font-size-3xs);
+                font-weight: 500;
+                color: blue;
+                min-width: 150px;
+                margin: var(--ddd-spacing-3);
+                padding: var(--ddd-spacing-6);
+                border: var(--ddd-border-sm);
+                border-color: var(--ddd-theme-default-nittanyNavy);
+                background-color: var(--ddd-theme-default-roarMaxlight);
+
+            }
             
-        }
-        .partyInvite {
-            background-color: white;
-            border: 3px solid black;
-            text-align: center;
-            height: 100px;
-            width: 100px;
-            margin: 4px;
-            padding: 4px;
-            color: black;
-            font-size: 10px;
-            font-family: georgia;
-            font-weight: bold;
+            .saveParty {
+                font-family: "Press Start 2P", system-ui;
+                font-size: var(--ddd-font-size-3xs);
+                font-weight: 500;
+                color: blue;
+                min-width: 150px;
+                margin: var(--ddd-spacing-3);
+                padding: var(--ddd-spacing-6);
+                border: var(--ddd-border-sm);
+                border-color: var(--ddd-theme-default-nittanyNavy);
+                background-color: var(--ddd-theme-default-roarMaxlight);
+            }
 
-        }
+            .partyInvite:focus,
+            .partyInvite:hover {
+                background-color: var(--ddd-theme-default-nittanyNavy);
+                color: var(--ddd-theme-default-roarMaxlight);
+                transform: scale(1.1);
+                transition: 0.3s ease-in-out;
+            }
 
-        .partyInvite:focus,
-        .partyInvite:hover {
-            background-color: lightgray;
-        }
+            .removeMember:focus,
+            .removeMember:hover {
+                background-color: var(--ddd-theme-default-nittanyNavy);
+                color: var(--ddd-theme-default-roarMaxlight);
+                transform: scale(1.1);
+                transition: 0.3s ease-in-out
+            }
 
-        .removeMember {
-            background-color: red;
-            border: 3px solid black;
-            text-align: center;
-            height: 50px;
-            width: 100px;
-            margin: 4px;
-            padding: 4px;
-            color: black;
-            font-size: 10px;
-            font-family: georgia;
-            font-weight: bold;
+            .saveParty:focus,
+            .saveParty:hover {
+                background-color: var(--ddd-theme-default-nittanyNavy);
+                color: var(--ddd-theme-default-roarMaxlight);
+                transform: scale(1.1);
+                transition: 0.3s ease-in-out
+            }
 
-        }
-        .removeMember:focus,
-        .removeMember:hover {
-            background-color: lightgray;
-        }
+            .search-input {
+                font-family: "Press Start 2P", system-ui;
+                min-width: 150px;
+                margin: var(--ddd-spacing-3);
+                padding: var(--ddd-spacing-6);
+                background-color: var(--ddd-theme-default-slateMaxLight);
+            }
 
-        .saveParty {
-            background-color: lightblue;
-            border: 3px solid black;
-            text-align: center;
-            height: 50px;
-            width: 100px;
-            margin: 4px;
-            padding: 4px;
-            color: black;
-            font-size: 10px;
-            font-family: georgia;
-            font-weight: bold;
-        }
 
-        .saveParty:focus,
-        .saveParty:hover {
-            background-color: lightgray;
-        }
 
-        .friendList {
-            display: inline-flex;
-            margin: 4px;
-            padding: 4px;
-            background-color: white;
-            height: 600px;
-            width: 500px;
-            overflow: auto;
-            border: 3px solid black;
-
-        }
-
-        
-    `;
+          
+          
+        `];
     }
-
-    
 
     render() {
         return html`
-            <div>
-                <button class="saveParty">Save Party</button>
-                <button class="partyInvite"><img class=friendIcon src="${this.icon}" alt="Add Friend">Invite Friend</button>
-            </div>
+            <confetti-container id="confetti">
+                <div class="partyList">
+                    <h2 style="font-family: system.ui; color: white; text-align: center;">Create a Division</h2>
+                    <input type="text" class="search-input" placeholder="Search party member"/>
 
-            <div class="friendList">
-                <div>
-                    <rpg-character hat="random" seed="haxtheweb"></rpg-character>
-                    <p style="text-aign: left; ">placeholder user</p>
+                    <div class="buttonWrapper">
+                        <button class="saveParty" @click="${this.makeItRain}">Save Party</button>
+                        <button class="partyInvite" @click="${this.updateContainer}">Invite Friend</button>
+                        <button class="removeMember">Remove Member</button>
+            
+                    </div>
+
+                    <div class="partyDisplay">
+                        ${this.party.map((item) => html`<p class="username">${item}<rpg-character seed=${item}></rpg-character></p>`)}
+                    </div>
+                    
+            
                 </div>
-                <button class="removeMember">Remove Member</button>
-            
-            </div>
-            
-            <p style="font-family: comic sans ms;">where we droppin?</p>
-            
-        
+            </confetti-container>            
         `;
     }
+    handleInput(event) {
+        const input = event.target.value;
+        const filter = input.replace(/[^a-z0-9]/g, "");
 
+        event.target.value = filter.slice(0, 10);
+    }
+    
+    addItem() {
+        const input = document.querySelector(".search-input").value;
 
+        if (input.trim() !== "") {
+            if (this.party.length < 5) {
+                if (/^[a-z0-9]{1,10}$/.test(input)) {
+                    if (!this.party.includes(input)) {
+                        const confirmed = window.confirm(`Invite ${input} to division?`);
+                        if (confirmed) {
+                            this.party = [...this.party, input];
+                        }
+                        else {
+                            window.alert("User is already in the division.");
+                        }
+                    }
+                }
+                else {
+                    window.alert("Must contain only lowercase letters, numbers, no spaces, and a maximum of 10 characters.");
+                }
+            }
+            else {
+                window.alert("The division is full!");
+            }
+        }
+        else {
+            window.alert("Empty entry!");
+        }
+    }
+    
+    displayItem(item) {
+        return html`<rpg-character seed="${item}"></rpg-character>`;
+      
+    }
+
+    updateContainer() {
+        const container = this.shadowRoot.querySelector(".party");
+        this.party.forEach((item) => {
+          this.displayItem(item);
+        });
+    }
+    
+    makeItRain() {
+        import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
+            (module) => {
+                setTimeout(() => {
+                this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+            }, 0);
+          }
+        );
+    }
+   
     static get properties() {
         return {
-            icon: { type: String },
-            darkMode: { type: Boolean, reflect: true, attribute: "dark-mode"},
-
-        };
+            ...super.properties,
+            party: { type: String, reflect: true },
+            item: { type:String, reflect: true },
+        }
     }
-}
+  }
 
 globalThis.customElements.define(PartyUI.tag, PartyUI);
