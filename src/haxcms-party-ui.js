@@ -55,7 +55,9 @@ export class PartyUI extends DDD {
 
             .ruleText {
                 font-family: "Press Start 2P", system-ui;
-                font-size: 15px;
+                font-size: 12px;
+                margin: 0px;
+                padding: 0px;
 
             }
 
