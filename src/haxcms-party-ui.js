@@ -21,7 +21,6 @@ export class PartyUI extends DDD {
         css`
             :host {
                 display: flex;
-                overflow: auto;
             }
             .partyList {
                 background-color: var(--ddd-theme-default-beaverBlue);
@@ -29,14 +28,22 @@ export class PartyUI extends DDD {
                 height: 620px;
                 padding: var(--ddd-spacing-4);
                 color: white;
-                overflow: auto;
+                overflow-y: scroll;
 
             }
 
             .username {
                 font-family: "Press Start 2P", system-ui;
-                margin: var(--ddd-spacing-3);
-                padding: var(--ddd-spacing-6);
+                margin: var(--ddd-spacing-8);
+                padding: var(--ddd-spacing-8);
+                
+            }
+
+            .userSlot {
+                display: flex;
+                margin-left: var(--ddd-spacing-4);
+
+
             }
 
             .buttonWrapper {
@@ -48,7 +55,7 @@ export class PartyUI extends DDD {
             .rules {
                 margin: var(--ddd-spacing-3);
                 padding: var(--ddd-spacing-6);
-                width: 80%;
+                width: 92%;
                 background-color: var(--ddd-theme-default-nittanyNavy);
 
             }
@@ -90,6 +97,8 @@ export class PartyUI extends DDD {
                 border: var(--ddd-border-sm);
                 border-color: var(--ddd-theme-default-nittanyNavy);
                 background-color: var(--ddd-theme-default-roarMaxlight);
+                position: sticky;
+                left: 90%;
 
             }
             
@@ -145,37 +154,6 @@ export class PartyUI extends DDD {
         `];
     }
 
-    render() {
-        return html`
-            <confetti-container id="confetti">
-                <div class="partyList">
-                    <h2 style="font-family: system.ui; color: white; text-align: center;">Create a Division</h2>
-                    <input type="text" class="search-input" placeholder="Add a division member."/>
-                    
-                    <div class="rules">
-                            <p class="ruleText">Input Rules:</p>
-                            <p class="ruleText">- Division can only have a maxmimum of 5 members.</p>
-                            <p class="ruleText">- Maximum of 10 characters.</p>
-                            <p class="ruleText">- Only lowercase letters.</p>
-                            <p class="ruleText">- No special characters.</p>
-                    </div>
-
-                    <div class="buttonWrapper">
-                        <button class="saveParty" @click="${this.makeItRain}">Save Party</button>
-                        <button class="partyInvite" @click="${this.updateContainer}">Invite Friend</button>
-                        <button class="removeMember">Remove Member</button>
-            
-                    </div>
-
-                    <div class="partyDisplay">
-                        ${this.party.map((item) => html`<p class="username">${item}<rpg-character seed=${item}></rpg-character></p>`)}
-                    </div>
-                    
-            
-                </div>
-            </confetti-container>            
-        `;
-    }
     handleInput(event) {
         const input = event.target.value;
         const filter = input.replace(/[^a-z0-9]/g, "");
@@ -233,12 +211,49 @@ export class PartyUI extends DDD {
           }
         );
     }
+
+
+
+
+
+    render() {
+        return html`
+            <confetti-container id="confetti">
+                <div class="partyList">
+                    <h2 style="font-family: system.ui; color: white; text-align: center;">Create a Division</h2>
+                    <input type="text" class="search-input" placeholder="Add a division member."/>
+                    
+                    <div class="rules">
+                            <p class="ruleText">Input Rules:</p>
+                            <p class="ruleText">- Division can only have a maximum of 5 members.</p>
+                            <p class="ruleText">- Maximum of 10 characters.</p>
+                            <p class="ruleText">- Only lowercase letters.</p>
+                            <p class="ruleText">- No special characters.</p>
+                    </div>
+
+                    <div class="buttonWrapper">
+                        <button class="saveParty" @click="${this.makeItRain}">Save Party</button>
+                        <button class="partyInvite" @click="${this.updateContainer}">Invite Friend</button>
+                        
+            
+                    </div>
+
+                    <div class="partyDisplay">
+                        ${this.party.map((item) => html`<div class="userSlot"><rpg-character seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember">Remove Member</button></div>`)}
+                    </div>
+                    
+            
+                </div>
+            </confetti-container>            
+        `;
+    }
    
     static get properties() {
         return {
             ...super.properties,
             party: { type: String, reflect: true },
             item: { type:String, reflect: true },
+            saved: { type:String, reflect: true  },
         }
     }
   }
