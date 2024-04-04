@@ -10,9 +10,10 @@ export class PartyUI extends DDD {
   
     constructor() {
         super();
-      
+
+        this.changed = false;
         this.saved = false;
-        this.party = localStorage.getItem("party") != null ? localStorage.getItem("party").split(",") : ["evp5350"];
+        this.party = localStorage.getItem("party") != null ? localStorage.getItem("party").split(",") : ["evp5350", "test1234"];
     }
   
     static get styles() {
@@ -29,6 +30,13 @@ export class PartyUI extends DDD {
                 padding: var(--ddd-spacing-4);
                 color: white;
                 overflow-y: scroll;
+
+            }
+
+            .title{
+                font-family: "Press Start 2P", system-ui;
+                text-align: center;
+                color: white;
 
             }
 
@@ -139,7 +147,7 @@ export class PartyUI extends DDD {
                 transition: 0.3s ease-in-out
             }
 
-            .search-input {
+            #search-input {
                 font-family: "Press Start 2P", system-ui;
                 min-width: 92%;
                 margin: var(--ddd-spacing-3);
@@ -154,73 +162,58 @@ export class PartyUI extends DDD {
         `];
     }
 
-    deleteData() {
-        localStorage.removeItem("party");
+    
+    addItem() {
+        const entry = this.shadowRoot.getElementById("search-input");
+        const username = entry.value.trim();
+
+        if (username !== "") {
+            if (/^[a-z0-9]{1,10}$/.test(username)) {
+                if (!this.party.includes(username)) {
+                    this.party = [...this.party, username];
+                    this.toggleChanged();
+
+                } else {
+                    alert("Username is already in the division.");
+                }
+            } else {
+                alert("Username must be lowercase and numbers only.");
+            }
+        } else {
+            alert("Text imput is empty.");
+        }
     }
 
-    addUser() {
-        this.party = [...this.party, null];
-        this.saved = true;
+    toggleChanged() {
+        this.changed = !this.changed;
+    }
+
+    deleteData() {
+        const id = e.target.id;
+        this.selectedUser = id;
+        this.delete = true;
     }
 
     saveData() {
-        if (this.saved) {
+        if (this.changed) {
             const partyArray = this.party.toString();
             localStorage.setItem("party", partyArray);
             console.log(localStorage.getItem("party").split(","));
+            this.saved = true;
             this.makeItRain();
-
         }
 
         else {
             localStorage.removeItem("party");
         }
     }
-
-    remove() {
-        this.saved = false;
-    }
-
-    /*handleInput(event) {
-        const input = event.target.value;
-        const filter = input.replace(/[^a-z0-9]/g, "");
-
-        event.target.value = filter.slice(0, 10);
-    } */
-    
-    addItem() {
-        const input = document.querySelector(".search-input").value;
-
-        if (input.trim() !== "") {
-            if (this.party.length < 5) {
-                if (/^[a-z0-9]{1,10}$/.test(input)) {
-                    if (!this.party.includes(input)) {
-                        const confirmed = window.confirm(`Invite ${input} to division?`);
-                        if (confirmed) {
-                            this.party = [...this.party, input];
-                            this.saved = true;
-                        }
-                        else {
-                            window.alert("User is already in the division.");
-                        }
-                    }
-                }
-                else {
-                    window.alert("Must contain only lowercase letters, numbers, no spaces, and a maximum of 10 characters.");
-                }
-            }
-            else {
-                window.alert("The division is full!");
-            }
-        }
-        else {
-            window.alert("Empty entry!");
-        }
-    }
     
     displayItem(item) {
-        return html`<rpg-character seed="${item}"></rpg-character>`;
-      
+        if (this.saved) {
+            return html`<div class="userSlot"><rpg-character walking seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" @click="${this.deleteData}">Remove Member</button></div>`;
+        } else {
+            return html`<div class="userSlot"><rpg-character seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" @click="${this.deleteData}">Remove Member</button></div>`;
+        }
     }
 
     
@@ -234,38 +227,35 @@ export class PartyUI extends DDD {
         );
     }
 
-
-
-
-
     render() {
         return html`
             <confetti-container id="confetti">
                 <div class="partyList">
-                    <h2 style="font-family: system.ui; color: white; text-align: center;">Create a Division</h2>
-                    <input type="text" class="search-input" placeholder="Add a division member."/>
-                    
+                    <h2 class="title">Create a Division</h2>
                     <div class="rules">
                             <p class="ruleText">Input Rules:</p>
                             <p class="ruleText">- Maximum of 10 characters.</p>
                             <p class="ruleText">- Only lowercase letters.</p>
                             <p class="ruleText">- No special characters.</p>
                             <p class="ruleText">- Division can only have a maximum of 5 members.</p>
+                            <p class="ruleText">- No duplicate members.</p>
+                            <p></p>
+                            <p class="ruleText">Current Array: ${this.party}</p>
                     </div>
+                    
+                    <input type="text" id="search-input" placeholder="Add a division member."/>
 
                     <div class="buttonWrapper">
                         <button class="saveParty" @click="${this.saveData}">Save Party</button>
-                        <button class="partyInvite" @click="${this.addUser}">Invite Friend</button>
-                        
-            
+                        <button class="partyInvite" @click="${this.addItem}">Invite Friend</button>
                     </div>
 
                     <div class="partyDisplay">
-                        ${this.party.map((item) => html`<div class="userSlot"><rpg-character seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" @click="${this.remove}">Remove Member</button></div>`)}
+                        ${this.party.map((item) => this.displayItem(item))}                    
                     </div>
-                    
-            
+                
                 </div>
+
             </confetti-container>            
         `;
     }
@@ -273,8 +263,9 @@ export class PartyUI extends DDD {
     static get properties() {
         return {
             ...super.properties,
-            party: { type: Array, reflect: true },
-        }
+            changed: { type: Boolean, reflect: true },
+            saved: { type: Boolean, relect: true},
+            party: { type: Array, reflect: true },        }
     }
   }
 
