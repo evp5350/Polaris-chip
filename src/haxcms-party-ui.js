@@ -22,6 +22,7 @@ export class PartyUI extends DDD {
         css`
             :host {
                 display: flex;
+                font-family: "Press Start 2P", system-ui;
             }
             .partyList {
                 background-color: var(--ddd-theme-default-beaverBlue);
@@ -34,14 +35,14 @@ export class PartyUI extends DDD {
             }
 
             .title{
-                font-family: "Press Start 2P", system-ui;
+                font-family: system-ui;
                 text-align: center;
                 color: white;
 
             }
 
             .username {
-                font-family: "Press Start 2P", system-ui;
+                font-family: system-ui;
                 margin: var(--ddd-spacing-8);
                 padding: var(--ddd-spacing-8);
                 
@@ -69,7 +70,7 @@ export class PartyUI extends DDD {
             }
 
             .ruleText {
-                font-family: "Press Start 2P", system-ui;
+                font-family: system-ui;
                 font-size: 12px;
                 margin: 0px;
                 padding: 0px;
@@ -81,7 +82,7 @@ export class PartyUI extends DDD {
             }
 
             .partyInvite {
-                font-family: "Press Start 2P", system-ui;
+                font-family: system-ui;
                 font-size: var(--ddd-font-size-3xs);
                 font-weight: 500;
                 color: blue;
@@ -95,7 +96,7 @@ export class PartyUI extends DDD {
             }
 
             .removeMember {
-                font-family: "Press Start 2P", system-ui;
+                font-family: system-ui;
                 font-size: var(--ddd-font-size-3xs);
                 font-weight: 500;
                 color: blue;
@@ -111,7 +112,7 @@ export class PartyUI extends DDD {
             }
             
             .saveParty {
-                font-family: "Press Start 2P", system-ui;
+                font-family: system-ui;
                 font-size: var(--ddd-font-size-3xs);
                 font-weight: 500;
                 color: blue;
@@ -148,7 +149,7 @@ export class PartyUI extends DDD {
             }
 
             #search-input {
-                font-family: "Press Start 2P", system-ui;
+                font-family: system-ui;
                 min-width: 92%;
                 margin: var(--ddd-spacing-3);
                 padding: var(--ddd-spacing-6);
@@ -177,7 +178,7 @@ export class PartyUI extends DDD {
                     alert("Username is already in the division.");
                 }
             } else {
-                alert("Username must be lowercase and numbers only.");
+                alert("Username must contain lowercase letters, numbers, and a maximum of 10 characters only.");
             }
         } else {
             alert("Text imput is empty.");
@@ -189,9 +190,7 @@ export class PartyUI extends DDD {
     }
 
     deleteData() {
-        const id = e.target.id;
-        this.selectedUser = id;
-        this.delete = true;
+        
     }
 
     saveData() {
