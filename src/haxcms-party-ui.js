@@ -223,6 +223,7 @@ export class PartyUI extends DDD {
 
     saveData() {
         if (this.changed) {
+            alert("Division saved!");
             const partyArray = this.party.toString();
             localStorage.setItem("party", partyArray);
             console.log(localStorage.getItem("party").split(","));
