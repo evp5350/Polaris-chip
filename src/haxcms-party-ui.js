@@ -11,9 +11,11 @@ export class PartyUI extends DDD {
     constructor() {
         super();
 
+        this.delete = false;
         this.changed = false;
         this.saved = false;
         this.party = localStorage.getItem("party") != null ? localStorage.getItem("party").split(",") : ["evp5350", "test1234"];
+        this.selectedUser = "";
     }
   
     static get styles() {
@@ -51,13 +53,12 @@ export class PartyUI extends DDD {
             .userSlot {
                 display: flex;
                 margin-left: var(--ddd-spacing-4);
-
-
+                
             }
 
             .buttonWrapper {
                 display: flex;
-                margin-left: var(--ddd-spacing-4);
+                margin-left: 0px;
                 
             }
             
@@ -145,7 +146,7 @@ export class PartyUI extends DDD {
                 background-color: var(--ddd-theme-default-nittanyNavy);
                 color: var(--ddd-theme-default-roarMaxlight);
                 transform: scale(1.1);
-                transition: 0.3s ease-in-out
+                transition: 0.3s ease-in-out;
             }
 
             #search-input {
@@ -169,16 +170,21 @@ export class PartyUI extends DDD {
         const username = entry.value.trim();
 
         if (username !== "") {
-            if (/^[a-z0-9]{1,10}$/.test(username)) {
-                if (!this.party.includes(username)) {
-                    this.party = [...this.party, username];
-                    this.toggleChanged();
+            if (this.party.length < 5) {
+                if (/^[a-z0-9]{1,10}$/.test(username)) {
+                    if (!this.party.includes(username)) {
+                        this.party = [...this.party, username];
+                        this.toggleChanged();
+                        console.log(this.party);
 
+                    } else {
+                        alert("Username is already in the division.");
+                    }
                 } else {
-                    alert("Username is already in the division.");
+                    alert("Username must contain lowercase letters, numbers, and a maximum of 10 characters only.");
                 }
             } else {
-                alert("Username must contain lowercase letters, numbers, and a maximum of 10 characters only.");
+                alert("The division has the maxium number of members. Please remove atleast one member to add the user.");
             }
         } else {
             alert("Text imput is empty.");
@@ -189,8 +195,30 @@ export class PartyUI extends DDD {
         this.changed = !this.changed;
     }
 
-    deleteData() {
-        
+    removeUser(e){
+        const id = e.target.id;
+        this.selectedUser = id;
+        this.delete = true;
+
+        const position = this.party.indexOf(this.selectedUser);
+        let deleteRequest = "Are you sure you want to remove the member: " + this.selectedUser + " ?";
+
+        if(confirm(deleteRequest) == true){
+            this.party.splice(position, 1);
+            this.selectedUser = '';
+            this.deleteUserPending = false;
+            console.log(localStorage.getItem("party").split(","));
+            this.toggleChanged();
+            this.requestUpdate();
+            
+        } else {
+            alert("User removal canceled.");
+            console.log(localStorage.getItem("party").split(","));
+            this.userToDelete = '';
+            this.selectedUser = false;
+            this.requestUpdate();
+        }
+        this.delete = false;
     }
 
     saveData() {
@@ -200,18 +228,17 @@ export class PartyUI extends DDD {
             console.log(localStorage.getItem("party").split(","));
             this.saved = true;
             this.makeItRain();
-        }
-
-        else {
-            localStorage.removeItem("party");
+            this.toggleChanged();
+        } else {
+            alert("No changes were made to the division.");
         }
     }
     
-    displayItem(item) {
+    displayItem(item) {  
         if (this.saved) {
-            return html`<div class="userSlot"><rpg-character walking seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" @click="${this.deleteData}">Remove Member</button></div>`;
+            return html`<div class="userSlot"><rpg-character walking seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" id="${item}" @click="${this.removeUser}">Remove Member</button></div>`;
         } else {
-            return html`<div class="userSlot"><rpg-character seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" @click="${this.deleteData}">Remove Member</button></div>`;
+            return html`<div class="userSlot"><rpg-character seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" id="${item}" @click="${this.removeUser}">Remove Member</button></div>`;
         }
     }
 
@@ -239,7 +266,7 @@ export class PartyUI extends DDD {
                             <p class="ruleText">- Division can only have a maximum of 5 members.</p>
                             <p class="ruleText">- No duplicate members.</p>
                             <p></p>
-                            <p class="ruleText">Current Array: ${this.party}</p>
+                            <details><summary class="ruleText" style="color: white;">Current Array:</summary><div><p class="ruleText" style="color: white;">${this.party}</p></div></details>
                     </div>
                     
                     <input type="text" id="search-input" placeholder="Add a division member."/>
@@ -250,21 +277,25 @@ export class PartyUI extends DDD {
                     </div>
 
                     <div class="partyDisplay">
-                        ${this.party.map((item) => this.displayItem(item))}                    
+                        ${this.party.map((item) => this.displayItem(item))}           
                     </div>
                 
                 </div>
 
-            </confetti-container>            
-        `;
+            </confetti-container>     
+
+            `;
     }
    
     static get properties() {
         return {
             ...super.properties,
+            delete: { type: Boolean, reflect: true },
             changed: { type: Boolean, reflect: true },
-            saved: { type: Boolean, relect: true},
-            party: { type: Array, reflect: true },        }
+            saved: { type: Boolean, relect: true },
+            party: { type: Array, reflect: true },
+            selectedUser: { type: String, reflect: true },        
+        };
     }
   }
 
