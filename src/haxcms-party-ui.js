@@ -82,17 +82,19 @@ export class PartyUI extends DDD {
                 text-align: left;
             }
 
-            .partyInvite {
+            #partyInvite {
                 font-family: system-ui;
                 font-size: var(--ddd-font-size-3xs);
                 font-weight: 500;
                 color: blue;
-                min-width: 150px;
+                min-width: 190px;
                 margin: var(--ddd-spacing-3);
                 padding: var(--ddd-spacing-6);
                 border: var(--ddd-border-sm);
                 border-color: var(--ddd-theme-default-nittanyNavy);
                 background-color: var(--ddd-theme-default-roarMaxlight);
+                position: sticky;
+                left: 55%;
 
             }
 
@@ -112,21 +114,24 @@ export class PartyUI extends DDD {
 
             }
             
-            .saveParty {
+            #saveParty {
                 font-family: system-ui;
                 font-size: var(--ddd-font-size-3xs);
                 font-weight: 500;
                 color: blue;
-                min-width: 150px;
+                min-width: 190px;
                 margin: var(--ddd-spacing-3);
                 padding: var(--ddd-spacing-6);
                 border: var(--ddd-border-sm);
                 border-color: var(--ddd-theme-default-nittanyNavy);
                 background-color: var(--ddd-theme-default-roarMaxlight);
+                position: sticky;
+                left: 90%;
+                
             }
 
-            .partyInvite:focus,
-            .partyInvite:hover {
+            #partyInvite:focus,
+            #partyInvite:hover {
                 background-color: var(--ddd-theme-default-nittanyNavy);
                 color: var(--ddd-theme-default-roarMaxlight);
                 transform: scale(1.1);
@@ -141,8 +146,8 @@ export class PartyUI extends DDD {
                 transition: 0.3s ease-in-out;
             }
 
-            .saveParty:focus,
-            .saveParty:hover {
+            #saveParty:focus,
+            #saveParty:hover {
                 background-color: var(--ddd-theme-default-nittanyNavy);
                 color: var(--ddd-theme-default-roarMaxlight);
                 transform: scale(1.1);
@@ -151,7 +156,7 @@ export class PartyUI extends DDD {
 
             #search-input {
                 font-family: system-ui;
-                min-width: 92%;
+                min-width: 43%;
                 margin: var(--ddd-spacing-3);
                 padding: var(--ddd-spacing-6);
                 background-color: var(--ddd-theme-default-slateMaxLight);
@@ -166,25 +171,26 @@ export class PartyUI extends DDD {
 
     
     addItem() {
+        //recieve user input
         const entry = this.shadowRoot.getElementById("search-input");
         const username = entry.value.trim();
 
-        if (username !== "") {
-            if (this.party.length < 5) {
-                if (/^[a-z0-9]{1,10}$/.test(username)) {
-                    if (!this.party.includes(username)) {
+        if (username !== "") { //checks if the input is empty
+            if (this.party.length < 5) { //check if the party is full
+                if (/^[a-z0-9]{1,10}$/.test(username)) { //checks if the input has lowercase letters, numbers, and is under 10 characters.
+                    if (!this.party.includes(username)) { //checks if the input is in the party.
                         this.party = [...this.party, username];
                         this.toggleChanged();
                         console.log(this.party);
 
                     } else {
-                        alert("Username is already in the division.");
+                        alert("Username is already in the party.");
                     }
                 } else {
                     alert("Username must contain lowercase letters, numbers, and a maximum of 10 characters only.");
                 }
             } else {
-                alert("The division has the maxium number of members. Please remove atleast one member to add the user.");
+                alert("The party has the maximum number of members. Please remove atleast one member to add the user.");
             }
         } else {
             alert("Text imput is empty.");
@@ -192,18 +198,19 @@ export class PartyUI extends DDD {
     }
 
     toggleChanged() {
-        this.changed = !this.changed;
+        this.changed = !this.changed; //indicates if the party has changed.
     }
 
     removeUser(e){
+        //recieves remove member id
         const id = e.target.id;
         this.selectedUser = id;
         this.delete = true;
 
-        const position = this.party.indexOf(this.selectedUser);
-        let deleteRequest = "Are you sure you want to remove the member: " + this.selectedUser + " ?";
+        const position = this.party.indexOf(this.selectedUser); //searches for the party member that is linked to the remove button id.
+        let deleteRequest = "Are you sure you want to remove the member: " + this.selectedUser + "?"; //confirm alert message
 
-        if(confirm(deleteRequest) == true){
+        if(confirm(deleteRequest) == true){ //when OK is pressed
             this.party.splice(position, 1);
             this.selectedUser = '';
             this.deleteUserPending = false;
@@ -212,18 +219,18 @@ export class PartyUI extends DDD {
             this.requestUpdate();
             
         } else {
-            alert("User removal canceled.");
+            alert("User removal canceled."); //when CANCEL is pressed
             console.log(localStorage.getItem("party").split(","));
             this.userToDelete = '';
             this.selectedUser = false;
             this.requestUpdate();
         }
-        this.delete = false;
+        this.delete = false; 
     }
 
     saveData() {
-        if (this.changed) {
-            alert("Division saved!");
+        if (this.changed) { //checks if the party array has changed
+            alert("Party saved!");
             const partyArray = this.party.toString();
             localStorage.setItem("party", partyArray);
             console.log(localStorage.getItem("party").split(","));
@@ -231,12 +238,13 @@ export class PartyUI extends DDD {
             this.makeItRain();
             this.toggleChanged();
         } else {
-            alert("No changes were made to the division.");
+            alert("No changes were made to the party or the party is empty.");
+            this.toggleChanged();
         }
     }
     
     displayItem(item) {  
-        if (this.saved) {
+        if (this.saved) { //checks is the party array was changed.
             return html`<div class="userSlot"><rpg-character walking seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" id="${item}" @click="${this.removeUser}">Remove Member</button></div>`;
         } else {
             return html`<div class="userSlot"><rpg-character seed=${item}></rpg-character><p class="username">${item}</p><button class="removeMember" id="${item}" @click="${this.removeUser}">Remove Member</button></div>`;
@@ -258,23 +266,33 @@ export class PartyUI extends DDD {
         return html`
             <confetti-container id="confetti">
                 <div class="partyList">
-                    <h2 class="title">Create a Division</h2>
+                    <h2 class="title">Party Creation</h2>
+                    <p class="ruleText" style="font-family: comic sans ms; text-align: center;">"where we droppin?"</p>
                     <div class="rules">
                             <p class="ruleText">Input Rules:</p>
                             <p class="ruleText">- Maximum of 10 characters.</p>
-                            <p class="ruleText">- Only lowercase letters.</p>
+                            <p class="ruleText">- Only lowercase letters and numbers.</p>
                             <p class="ruleText">- No special characters.</p>
-                            <p class="ruleText">- Division can only have a maximum of 5 members.</p>
+                            <p class="ruleText">- The party can only have a maximum of 5 members.</p>
                             <p class="ruleText">- No duplicate members.</p>
                             <p></p>
                             <details><summary class="ruleText" style="color: white;">Current Array:</summary><div><p class="ruleText" style="color: white;">${this.party}</p></div></details>
                     </div>
                     
-                    <input type="text" id="search-input" placeholder="Add a division member."/>
-
                     <div class="buttonWrapper">
-                        <button class="saveParty" @click="${this.saveData}">Save Party</button>
-                        <button class="partyInvite" @click="${this.addItem}">Invite Friend</button>
+                        <input id="search-input" type="text" placeholder="Add a party member."/>
+                        <button id="partyInvite" @click="${this.addItem}">Invite Friend</button>
+                        <button id="saveParty" @click="${this.saveData}">Save Party</button>
+                        
+                        <script>
+                            var input = document.getElementById("search-input");
+                            input.addEventListener("keypress", function(e) {
+                            if (e.key === "enter") {
+                                document.getElementById("partyInvite").click();
+                            }
+                            });
+                        </script>
+
                     </div>
 
                     <div class="partyDisplay">
@@ -287,6 +305,7 @@ export class PartyUI extends DDD {
 
             `;
     }
+    
    
     static get properties() {
         return {
