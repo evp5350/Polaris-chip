@@ -36,7 +36,7 @@ export class PartyUI extends DDD {
 
             }
 
-            .title{
+            .title {
                 font-family: system-ui;
                 text-align: center;
                 color: white;
